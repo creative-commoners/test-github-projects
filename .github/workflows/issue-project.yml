@@ -19,18 +19,9 @@ jobs:
           GH_TOKEN: ${{ secrets.TEST_GITHUB_PROJECTS_TOKEN }}
           ORGANIZATION: creative-commoners
           PROJECT_NUMBER: 1
-          ISSUE_NODE_ID: ${{ github.event.issues.issue.node_id }}
-          ISSUE_BODY: ${{ github.event.issues.issue.body }}
-          ISSUE2_NODE_ID: ${{ github.event.issue.node_id }}
-          ISSUE2_BODY: ${{ github.event.issue.body }}
+          ISSUE_NODE_ID: ${{ github.event.issue.node_id }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          echo "ISSUE_NODE_ID is $ISSUE_NODE_ID"
-          echo "ISSUE2_NODE_ID is $ISSUE2_NODE_ID"
-          echo "ISSUE_BODY is $ISSUE_BODY"
-          echo "ISSUE2_BODY is $ISSUE2_BODY"
-          echo "GITHUB_REPOSITORY is $GITHUB_REPOSITORY"
-          echo "ISSUE_NUMBER is $ISSUE_NUMBER"
           echo "Running query 01"
           gh api graphql -f query='
             query($org: String!, $number: Int!) {
