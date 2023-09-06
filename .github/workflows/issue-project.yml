@@ -22,6 +22,7 @@ jobs:
           ISSUE_NODE_ID: ${{ github.event.issue.node_id }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
+          echo "ISSUE_NODE_ID is $ISSUE_NODE_ID"
           echo "Running query 01"
           gh api graphql -f query='
             query($org: String!, $number: Int!) {
@@ -48,12 +49,14 @@ jobs:
               }
             }' -f org=$ORGANIZATION -F number=$PROJECT_NUMBER > project_data.json
 
-          cat project_data.json
+          # cat project_data.json
 
           echo 'PROJECT_ID='$(jq -r '.data.organization.projectV2.id' project_data.json) >> $GITHUB_ENV
           # echo 'DATE_FIELD_ID='$(jq -r '.data.organization.projectV2.fields.nodes[] | select(.name== "Date posted") | .id' project_data.json) >> $GITHUB_ENV
           # echo 'STATUS_FIELD_ID='$(jq -r '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .id' project_data.json) >> $GITHUB_ENV
           # echo 'TODO_OPTION_ID='$(jq -r '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="Todo") |.id' project_data.json) >> $GITHUB_ENV
+
+          echo "PROJECT_ID is $PROJECT_ID"
           rm project_data.json
 
           # Get issue node_id from rest api
