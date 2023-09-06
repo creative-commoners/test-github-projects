@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Do the things
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORGANIZATION: creative-commoners
           PROJECT_NUMBER: 1
           ISSUE_NUMBER: ${{ github.event.issues.issue.issue_number }}
