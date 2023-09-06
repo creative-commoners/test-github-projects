@@ -20,7 +20,11 @@ jobs:
           ORGANIZATION: creative-commoners
           PROJECT_NUMBER: 1
           ISSUE_NUMBER: ${{ github.event.issues.issue.issue_number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
+          echo "GITHUB_REPOSITORY is $GITHUB_REPOSITORY"
+          echo "ISSUE_NUMBER is $ISSUE_NUMBER"
+          echo "Running query 01"
           gh api graphql -f query='
             query($org: String!, $number: Int!) {
               organization(login: $org){
@@ -55,9 +59,11 @@ jobs:
           rm project_data.json
 
           # Get issue node_id from rest api
-          ISSUE_ID=$(gh api repos/creative-commoners/test-github-projects/issues/$ISSUE_NUMBER --jq '.node_id')
+          echo "Running query 02"
+          ISSUE_ID=$(gh api repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER --jq '.node_id')
           
           # Add issue to project via graphql api
+          echo "Running query 03"
           ITEM_ID="$(gh api graphql -f query='
             mutation($projectId:ID!, $contentId:ID!) {
               addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
