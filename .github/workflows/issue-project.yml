@@ -18,11 +18,10 @@ jobs:
           ORGANIZATION: creative-commoners
           PROJECT_NUMBER: 1
         run: |
-          # projectV2(number: $number) {
           gh api graphql -f query='
             query($org: String!, $number: Int!) {
               organization(login: $org){
-                projectV2 {
+                projectV2(number: $number) {
                   id
                   fields(first:20) {
                     nodes {
