@@ -57,11 +57,12 @@ jobs:
         run: |
           echo "ISSUE_ID is $ISSUE_ID"
           item_id="$( gh api graphql -f query='
-            mutation($project:ID!, $pr:ID!) {
-              addProjectV2ItemById(input: {projectId: $project, contentId: $issueId}) {
+            mutation($projectId:ID!, $issueId:ID!) {
+              addProjectV2ItemById(input: {projectId: $projectId, contentId: $issueId}) {
                 item {
                   id
                 }
               }
-            }' -f project=$PROJECT_ID -f issueId=$ISSUE_ID --jq '.data.addProjectV2ItemById.item.id')"
+            }' -f projectId=$PROJECT_ID -f issueId=$ISSUE_ID --jq '.data.addProjectV2ItemById.item.id')"
+          echo "item_id is $item_id"
           echo 'ITEM_ID='$item_id >> $GITHUB_ENV
