@@ -19,12 +19,10 @@ jobs:
           GH_TOKEN: ${{ secrets.TEST_GITHUB_PROJECTS_TOKEN }}
           ORGANIZATION: creative-commoners
           PROJECT_NUMBER: 1
-          EVENT_PATH: ${{ github.event_path }}
-          ISSUE_NUMBER: ${{ github.event.issue.issue_number }}
+          ISSUE_NODE_ID: ${{ github.event.issues.issue.node_id }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          echo "EVENT_PATH is $EVENT_PATH"
-          cat $EVENT_PATH
+          echo "ISSUE_NODE_ID is $ISSUE_NODE_ID"
           echo "GITHUB_REPOSITORY is $GITHUB_REPOSITORY"
           echo "ISSUE_NUMBER is $ISSUE_NUMBER"
           echo "Running query 01"
@@ -62,8 +60,8 @@ jobs:
           rm project_data.json
 
           # Get issue node_id from rest api
-          echo "Running query 02"
-          ISSUE_ID=$(gh api repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER --jq '.node_id')
+          # echo "Running query 02"
+          # ISSUE_ID=$(gh api repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER --jq '.node_id')
           
           # Add issue to project via graphql api
           echo "Running query 03"
@@ -74,6 +72,6 @@ jobs:
                   id
                 }
               }
-            }' -f projectId=$PROJECT_ID -f contentId=$ISSUE_ID --jq '.data.addProjectV2ItemById.item.id')"
+            }' -f projectId=$PROJECT_ID -f contentId=$ISSUE_NODE_ID --jq '.data.addProjectV2ItemById.item.id')"
           echo "ITEM_ID is $ITEM_ID"
           echo 'ITEM_ID='$item_id >> $GITHUB_ENV
