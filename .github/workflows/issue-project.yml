@@ -19,9 +19,11 @@ jobs:
           GH_TOKEN: ${{ secrets.TEST_GITHUB_PROJECTS_TOKEN }}
           ORGANIZATION: creative-commoners
           PROJECT_NUMBER: 1
+          EVENT: ${{ github.event }}
           ISSUE_NUMBER: ${{ github.event.issue.issue_number }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
+          echo "EVENT is $EVENT"
           echo "GITHUB_REPOSITORY is $GITHUB_REPOSITORY"
           echo "ISSUE_NUMBER is $ISSUE_NUMBER"
           echo "Running query 01"
