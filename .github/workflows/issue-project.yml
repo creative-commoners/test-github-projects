@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Get project data
         env:
+          GH_TOKEN: ${{ github.token }}
           ORGANIZATION: creative-commoners
           PROJECT_NUMBER: 1
         run: |
@@ -49,6 +50,7 @@ jobs:
 
       - name: Add issue to project
         env:
+          GH_TOKEN: ${{ github.token }}
           ISSUE_ID: ${{ github.event.issues.issue.issue_number }}
         run: |
           echo "ISSUE_ID is $ISSUE_ID"
